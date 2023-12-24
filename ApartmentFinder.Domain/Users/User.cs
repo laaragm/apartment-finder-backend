@@ -1,8 +1,8 @@
-﻿using ApartmentFinder.Domain.Abstractions;
-using ApartmentFinder.Domain.Users;
+﻿using ApartmentFinder.Domain.Users;
+using ApartmentFinder.Domain.Abstractions;
 using ApartmentFinder.Domain.Users.Events;
 
-namespace ApartmentFinder.Domain.User;
+namespace ApartmentFinder.Domain.Users;
 
 public sealed class User : Entity
 {
