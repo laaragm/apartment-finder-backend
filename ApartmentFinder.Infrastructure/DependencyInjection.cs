@@ -7,13 +7,13 @@ using ApartmentFinder.Domain.Reviews;
 using ApartmentFinder.Domain.Bookings;
 using ApartmentFinder.Domain.Apartments;
 using ApartmentFinder.Domain.Abstractions;
+using ApartmentFinder.Infrastructure.Data;
 using ApartmentFinder.Infrastructure.Clock;
 using ApartmentFinder.Infrastructure.Email;
 using ApartmentFinder.Infrastructure.Repositories;
+using ApartmentFinder.Application.Abstractions.Data;
 using ApartmentFinder.Application.Abstractions.Email;
 using ApartmentFinder.Application.Abstractions.Clock;
-using ApartmentFinder.Infrastructure.Data;
-using ApartmentFinder.Application.Abstractions.Data;
 
 namespace ApartmentFinder.Infrastructure;
 
