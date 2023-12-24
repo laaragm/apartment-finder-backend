@@ -2,9 +2,9 @@
 using ApartmentFinder.Domain.Bookings;
 using ApartmentFinder.Domain.Apartments;
 using ApartmentFinder.Domain.Abstractions;
-using ApartmentFinder.Application.Abstractions.Messaging;
-using System.Data;
 using ApartmentFinder.Application.Abstractions.Clock;
+using ApartmentFinder.Application.Abstractions.Messaging;
+using ApartmentFinder.Application.Exceptions;
 
 namespace ApartmentFinder.Application.Bookings.ReserveBooking;
 
@@ -54,10 +54,16 @@ internal sealed class ReserveBookingCommandHandler : ICommandHandler<ReserveBook
 			return Result.Failure<Guid>(BookingErrors.Overlap);
 		}
 
-		var booking = Booking.Reserve(apartment, user.Id, duration, _dateTimeProvider.UtcNow, _pricingService);
-		_bookingRepository.Add(booking);
-		await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-		return booking.Id;
+		try
+		{
+			var booking = Booking.Reserve(apartment, user.Id, duration, _dateTimeProvider.UtcNow, _pricingService);
+			_bookingRepository.Add(booking);
+			await _unitOfWork.SaveChangesAsync(cancellationToken);
+			return booking.Id;
+		} 
+		catch (ConcurrencyException)
+		{
+			return Result.Failure<Guid>(BookingErrors.Overlap);
+		}
 	}
 }
