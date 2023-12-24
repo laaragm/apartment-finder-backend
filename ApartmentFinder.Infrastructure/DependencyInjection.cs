@@ -1,17 +1,19 @@
-﻿using ApartmentFinder.Application.Abstractions.Clock;
-using ApartmentFinder.Application.Abstractions.Data;
-using ApartmentFinder.Domain.Abstractions;
-using ApartmentFinder.Domain.Apartments;
-using ApartmentFinder.Domain.Bookings;
-using ApartmentFinder.Domain.Reviews;
-using ApartmentFinder.Domain.Users;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ApartmentFinder.Domain.Users;
+using ApartmentFinder.Domain.Reviews;
+using ApartmentFinder.Domain.Bookings;
+using ApartmentFinder.Domain.Apartments;
+using ApartmentFinder.Domain.Abstractions;
 using ApartmentFinder.Infrastructure.Clock;
 using ApartmentFinder.Infrastructure.Email;
+using ApartmentFinder.Infrastructure.Repositories;
 using ApartmentFinder.Application.Abstractions.Email;
-using Microsoft.EntityFrameworkCore;
-using Dapper;
+using ApartmentFinder.Application.Abstractions.Clock;
+using ApartmentFinder.Infrastructure.Data;
+using ApartmentFinder.Application.Abstractions.Data;
 
 namespace ApartmentFinder.Infrastructure;
 
@@ -36,15 +38,15 @@ public static class DependencyInjection
 			options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
 		});
 
-		//services.AddScoped<IUserRepository, UserRepository>();
-		//services.AddScoped<IApartmentRepository, ApartmentRepository>();
-		//services.AddScoped<IBookingRepository, BookingRepository>();
-		//services.AddScoped<IReviewRepository, ReviewRepository>();
+		services.AddScoped<IUserRepository, UserRepository>();
+		services.AddScoped<IApartmentRepository, ApartmentRepository>();
+		services.AddScoped<IBookingRepository, BookingRepository>();
+		services.AddScoped<IReviewRepository, ReviewRepository>();
 
 		services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
-		//services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
+		services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
 
-		//SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
+		SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
 	}
 }
