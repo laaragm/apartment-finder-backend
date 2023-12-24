@@ -1,0 +1,5 @@
+﻿using ApartmentFinder.Domain.Abstractions;
+
+namespace ApartmentFinder.Domain.Bookings.Events;
+
+public sealed record BookingCancelledDomainEvent(Guid BookingId) : IDomainEvent;
