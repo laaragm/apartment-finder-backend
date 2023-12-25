@@ -31,6 +31,7 @@ public class BookingsController : ControllerBase
 		// We don't want to expose the command, because we'd be coupling it to the endpoint. We'd be leaking that information, which shouldn't happen.
 		var command = new ReserveBookingCommand(request.ApartmentId, request.UserId, request.StartDate, request.EndDate);
 		var result = await _sender.Send(command, cancellationToken);
+		
 		if (result.IsFailure)
 			return BadRequest(result.Error);
 
