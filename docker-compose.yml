@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  # The image being used is the one built from the Dockerfile that we have in the API project
+  apartmentfinder.api:
+    image: ${DOCKER_REGISTRY-}apartmentfinderapi
+    container_name: ApartmentFinder.API
+    build:
+      context: .
+      dockerfile: ApartmentFinder.API\Dockerfile
+    depends_on:
+      - apartmentfinder-db
+
+  # Database config
+  apartmentfinder-db:
+    image: postgres:latest
+    container_name: ApartmentFinder.Db
+    environment:
+      - POSTGRES_DB=apartmentfinder
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/database:/var/lib/postgresql/data
+    ports:
+      - 5432:5432

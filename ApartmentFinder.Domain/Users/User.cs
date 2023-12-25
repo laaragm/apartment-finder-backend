@@ -17,6 +17,8 @@ public sealed class User : Entity
 		Email = email;
 	}
 
+	private User() { }
+
 	// The purpose of wrapping the constructor in a factory method is to hide the constructor for better encapsulation
 	// Additionally, this allows for the introduction of side effects in the factory method that wouldn't be appropriate in a constructor (e.g: domain events)
 	public static User Create(FirstName firstName, LastName lastName, Email email)

@@ -23,6 +23,8 @@ public sealed class Review : Entity
 		CreatedOnUtc = createdOnUtc;
 	}
 
+	private Review() { }
+
 	public static Result<Review> Create(Booking booking, Rating rating, Comment comment, DateTime createdOnUtc)
 	{
 		var bookingHasBeenCompleted = booking.Status == BookingStatus.Completed;
