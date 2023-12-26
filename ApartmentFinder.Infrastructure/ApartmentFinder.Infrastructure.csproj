@@ -17,4 +17,8 @@
 	<ItemGroup>
 		<ProjectReference Include="..\ApartmentFinder.Application\ApartmentFinder.Application.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
+	</ItemGroup>
 </Project>

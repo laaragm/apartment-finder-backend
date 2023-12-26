@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using ApartmentFinder.Application.Apartments.SearchApartments;
 
 namespace ApartmentFinder.API.Controllers.Apartments;
 
+[Authorize]
 [Route("api/apartments")]
 [ApiController]
 public class ApartmentsController : ControllerBase

@@ -15,8 +15,4 @@
 	<ItemGroup>
 		<ProjectReference Include="..\ApartmentFinder.Domain\ApartmentFinder.Domain.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Users\" />
-	</ItemGroup>
 </Project>

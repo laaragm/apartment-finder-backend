@@ -1,7 +1,9 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ApartmentFinder.Domain.Users;
 using ApartmentFinder.Domain.Reviews;
 using ApartmentFinder.Domain.Bookings;
@@ -12,8 +14,10 @@ using ApartmentFinder.Infrastructure.Clock;
 using ApartmentFinder.Infrastructure.Email;
 using ApartmentFinder.Infrastructure.Repositories;
 using ApartmentFinder.Application.Abstractions.Data;
+using ApartmentFinder.Infrastructure.Authentication;
 using ApartmentFinder.Application.Abstractions.Email;
 using ApartmentFinder.Application.Abstractions.Clock;
+using ApartmentFinder.Application.Abstractions.Authentication;
 
 namespace ApartmentFinder.Infrastructure;
 
@@ -25,6 +29,7 @@ public static class DependencyInjection
 		services.AddTransient<IEmailService, EmailService>();
 
 		AddPersistence(services, configuration);
+		AddAuthentication(services, configuration);
 
 		return services;
 	}
@@ -48,5 +53,37 @@ public static class DependencyInjection
 		services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
 
 		SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
+	}
+
+	private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
+	{
+		services
+			.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+			.AddJwtBearer();
+
+		services.Configure<AuthenticationOptions>(configuration.GetSection("Authentication"));
+
+		services.ConfigureOptions<JwtBearerOptionsSetup>();
+
+		services.Configure<KeycloakOptions>(configuration.GetSection("Keycloak"));
+
+		services.AddTransient<AdminAuthorizationDelegatingHandler>();
+
+		services.AddHttpClient<IAuthenticationService, AuthenticationService>((serviceProvider, httpClient) =>
+		{
+			var keycloakOptions = serviceProvider.GetRequiredService<IOptions<KeycloakOptions>>().Value;
+			httpClient.BaseAddress = new Uri(keycloakOptions.AdminUrl);
+		})
+		.AddHttpMessageHandler<AdminAuthorizationDelegatingHandler>();
+
+		services.AddHttpClient<IJwtService, JwtService>((serviceProvider, httpClient) =>
+		{
+			var keycloakOptions = serviceProvider.GetRequiredService<IOptions<KeycloakOptions>>().Value;
+			httpClient.BaseAddress = new Uri(keycloakOptions.TokenUrl);
+		});
+
+		services.AddHttpContextAccessor();
+
+		services.AddScoped<IUserContext, UserContext>();
 	}
 }

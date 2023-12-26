@@ -23,3 +23,17 @@ services:
       - ./.containers/database:/var/lib/postgresql/data
     ports:
       - 5432:5432
+
+  # Identity Provider config
+  apartmentfinder-idp:
+    image: jboss/keycloak:latest
+    container_name: ApartmentFinder.Identity
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_IMPORT=/tmp/apartmentfinder-realm-export.json
+    volumes:
+      - ./.containers/identity:/opt/jboss/keycloak/standalone/data
+      - ./.files/apartmentfinder-realm-export.json:/tmp/apartmentfinder-realm-export.json
+    ports:
+      - 18080:8080

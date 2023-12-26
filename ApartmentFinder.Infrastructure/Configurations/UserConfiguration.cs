@@ -26,5 +26,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
 		// Ensures a unique constraint in the database for the column in the current table
 		builder.HasIndex(user => user.Email).IsUnique();
+
+		builder.HasIndex(user => user.IdentityId).IsUnique();
 	}
 }
