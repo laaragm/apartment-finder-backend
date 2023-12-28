@@ -38,21 +38,15 @@ internal sealed class ReserveBookingCommandHandler : ICommandHandler<ReserveBook
 	{
 		var user = await _userRepository.GetByIdAsync(new UserId(request.UserId), cancellationToken);
 		if (user is null)
-		{
 			return Result.Failure<Guid>(UserErrors.NotFound);
-		}
 
 		var apartment = await _apartmentRepository.GetByIdAsync(new ApartmentId(request.ApartmentId), cancellationToken);
 		if (apartment is null)
-		{
 			return Result.Failure<Guid>(ApartmentErrors.NotFound);
-		}
 
 		var duration = DateRange.Create(request.StartDate, request.EndDate);
 		if (await _bookingRepository.IsOverlappingAsync(apartment, duration, cancellationToken))
-		{
 			return Result.Failure<Guid>(BookingErrors.Overlap);
-		}
 
 		try
 		{

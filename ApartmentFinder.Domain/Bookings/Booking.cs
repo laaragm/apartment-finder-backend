@@ -72,9 +72,7 @@ public sealed class Booking : Entity<BookingId>
 	{
 		var propertyHasBeenReserved = Status == BookingStatus.Reserved;
 		if (!propertyHasBeenReserved)
-		{
 			return Result.Failure(BookingErrors.NotReserved);
-		}
 
 		Status = BookingStatus.Confirmed;
 		ConfirmedOnUtc = utcNow;
@@ -87,9 +85,7 @@ public sealed class Booking : Entity<BookingId>
 	{
 		var bookingHasBeenConfirmed = Status == BookingStatus.Confirmed;
 		if (!bookingHasBeenConfirmed)
-		{
 			return Result.Failure(BookingErrors.NotConfirmed);
-		}
 
 		Status = BookingStatus.Completed;
 		CompletedOnUtc = utcNow;
@@ -102,9 +98,7 @@ public sealed class Booking : Entity<BookingId>
 	{
 		var propertyHasBeenReserved = Status == BookingStatus.Reserved;
 		if (!propertyHasBeenReserved)
-		{
 			return Result.Failure(BookingErrors.NotReserved);
-		}
 
 		Status = BookingStatus.Rejected;
 		RejectedOnUtc = utcNow;
@@ -117,16 +111,12 @@ public sealed class Booking : Entity<BookingId>
 	{
 		var bookingHasBeenConfirmed = Status == BookingStatus.Confirmed;
 		if (!bookingHasBeenConfirmed)
-		{
 			return Result.Failure(BookingErrors.NotConfirmed);
-		}
 
 		var currentDate = DateOnly.FromDateTime(utcNow);
 		var bookingPeriodAlreadyStarted = currentDate > Duration.Start;
 		if (bookingPeriodAlreadyStarted)
-		{
 			return Result.Failure(BookingErrors.AlreadyStarted);
-		}
 
 		Status = BookingStatus.Cancelled;
 		CancelledOnUtc = utcNow;
