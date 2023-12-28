@@ -1,6 +1,10 @@
-using ApartmentFinder.Infrastructure;
 using ApartmentFinder.Application;
+using ApartmentFinder.Infrastructure;
 using ApartmentFinder.API.Extensions;
+using ApartmentFinder.API.Endpoints.Users;
+using ApartmentFinder.API.Endpoints.Reviews;
+using ApartmentFinder.API.Endpoints.Bookings;
+using ApartmentFinder.API.Endpoints.Apartments;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,9 +31,11 @@ app.UseHttpsRedirection();
 app.UseCustomExceptionHandler();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapApartmentsEndpoints();
+app.MapBookingsEndpoints();
+app.MapReviewsEndpoints();
+app.MapUsersEndpoints();
 
 app.Run();

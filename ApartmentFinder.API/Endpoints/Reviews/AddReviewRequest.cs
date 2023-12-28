@@ -1,3 +1,3 @@
-﻿namespace ApartmentFinder.API.Controllers.Reviews;
+﻿namespace ApartmentFinder.API.Endpoints.Reviews;
 
 public sealed record AddReviewRequest(Guid BookingId, int Rating, string Comment);

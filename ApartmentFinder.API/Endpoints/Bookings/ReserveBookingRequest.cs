@@ -1,3 +1,3 @@
-﻿namespace ApartmentFinder.API.Controllers.Bookings;
+﻿namespace ApartmentFinder.API.Endpoints.Bookings;
 
 public sealed record ReserveBookingRequest(Guid ApartmentId, Guid UserId, DateOnly StartDate, DateOnly EndDate);
