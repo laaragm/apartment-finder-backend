@@ -18,6 +18,8 @@ using ApartmentFinder.Infrastructure.Authentication;
 using ApartmentFinder.Application.Abstractions.Email;
 using ApartmentFinder.Application.Abstractions.Clock;
 using ApartmentFinder.Application.Abstractions.Authentication;
+using ApartmentFinder.Infrastructure.Outbox;
+using Quartz;
 
 namespace ApartmentFinder.Infrastructure;
 
@@ -30,6 +32,7 @@ public static class DependencyInjection
 
 		AddPersistence(services, configuration);
 		AddAuthentication(services, configuration);
+		AddBackgroundJobs(services, configuration);
 
 		return services;
 	}
@@ -85,5 +88,18 @@ public static class DependencyInjection
 		services.AddHttpContextAccessor();
 
 		services.AddScoped<IUserContext, UserContext>();
+	}
+
+	private static void AddBackgroundJobs(IServiceCollection services, IConfiguration configuration)
+	{
+		services.Configure<OutboxOptions>(configuration.GetSection("Outbox"));
+
+		// Utilize built-in DI support for resolving job instances, enabling the use of scoped services within jobs as needed
+		services.AddQuartz(options => { options.UseMicrosoftDependencyInjectionJobFactory(); });
+
+		// Add a hosted service to start Quartz in the background, initiating the triggering of background jobs
+		services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+
+		services.ConfigureOptions<ProcessOutboxMessagesJobSetup>();
 	}
 }

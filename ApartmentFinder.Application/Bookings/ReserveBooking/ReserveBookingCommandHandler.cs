@@ -2,9 +2,9 @@
 using ApartmentFinder.Domain.Bookings;
 using ApartmentFinder.Domain.Apartments;
 using ApartmentFinder.Domain.Abstractions;
+using ApartmentFinder.Application.Exceptions;
 using ApartmentFinder.Application.Abstractions.Clock;
 using ApartmentFinder.Application.Abstractions.Messaging;
-using ApartmentFinder.Application.Exceptions;
 
 namespace ApartmentFinder.Application.Bookings.ReserveBooking;
 

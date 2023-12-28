@@ -1,17 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 using ApartmentFinder.Domain.Abstractions;
-using MediatR;
+using ApartmentFinder.Infrastructure.Outbox;
 using ApartmentFinder.Application.Exceptions;
+using ApartmentFinder.Application.Abstractions.Clock;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace ApartmentFinder.Infrastructure;
 
 public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 {
-	private readonly IPublisher _publisher;
+	private static readonly JsonSerializerSettings JsonSerializerSettings = new() { TypeNameHandling = TypeNameHandling.All };
+	private readonly IDateTimeProvider _dateTimeProvider;
 
-	public ApplicationDbContext(DbContextOptions options, IPublisher publisher) : base(options)
+	public ApplicationDbContext(DbContextOptions options, IDateTimeProvider dateTimeProvider) : base(options)
 	{
-		_publisher = publisher;
+		_dateTimeProvider = dateTimeProvider;
 	}
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,8 +30,10 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 	{
 		try
 		{
+			// Process domain events, add them to the change tracker as outbox messages, and persist all in a single, atomic transaction
+			AddDomainEventsAsOutboxMessages();
 			var result = await base.SaveChangesAsync(cancellationToken);
-			await PublishDomainEventsAsync();
+			
 			return result;
 		} 
 		catch (DbUpdateConcurrencyException exception) // This exception is thrown by the database when there's a concurrency violation at the database level
@@ -36,25 +43,27 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 		}
 	}
 
-	private async Task PublishDomainEventsAsync()
+	private void AddDomainEventsAsOutboxMessages()
 	{
-		// Get all domain events from entities that have raised them
-		var domainEvents = ChangeTracker
+		// Retrieve and convert domain events from entities into outbox messages using change tracker
+		var outboxMessages = ChangeTracker
 			.Entries<IEntity>()
 			.Select(entry => entry.Entity)
 			.SelectMany(entity =>
 			{
-				// Get and clear domain events from the entity
 				var domainEvents = entity.GetDomainEvents();
+
 				entity.ClearDomainEvents();
+
 				return domainEvents;
 			})
+			.Select(domainEvent => new OutboxMessage(
+				Guid.NewGuid(),
+				_dateTimeProvider.UtcNow,
+				domainEvent.GetType().Name,
+				JsonConvert.SerializeObject(domainEvent, JsonSerializerSettings)))
 			.ToList();
 
-		// Publish each domain event in order to trigger the respective domain event handlers defined in the application layer
-		foreach (var domainEvent in domainEvents)
-		{
-			await _publisher.Publish(domainEvent);
-		}
+		AddRange(outboxMessages);
 	}
 }
