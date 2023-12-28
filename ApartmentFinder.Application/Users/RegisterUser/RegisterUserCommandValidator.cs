@@ -2,7 +2,7 @@
 
 namespace ApartmentFinder.Application.Users.RegisterUser;
 
-internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
+public sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {
 	public RegisterUserCommandValidator()
 	{

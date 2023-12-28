@@ -7,7 +7,7 @@ namespace ApartmentFinder.Domain.UnitTests.Users;
 public class RegisterUserTests : BaseTest
 {
 	[Fact]
-	public void Create_Should_Raise_UserCreatedDomainEvent()
+	public void Create_Should_Raise_User_Created_Domain_Event()
 	{
 		// Arrange
 		var firstName = new FirstName("first");
@@ -23,4 +23,3 @@ public class RegisterUserTests : BaseTest
 		userCreatedDomainEvent.UserId.Should().Be(user.Id);
 	}
 }
-

@@ -6,7 +6,7 @@ using ApartmentFinder.Application.Abstractions.Authentication;
 
 namespace ApartmentFinder.Application.Users.GetLoggedInUser;
 
-internal sealed class GetLoggedInUserQueryHandler : IQueryHandler<GetLoggedInUserQuery, UserResponse>
+public sealed class GetLoggedInUserQueryHandler : IQueryHandler<GetLoggedInUserQuery, UserResponse>
 {
 	private readonly ISqlConnectionFactory _sqlConnectionFactory;
 	private readonly IUserContext _userContext;

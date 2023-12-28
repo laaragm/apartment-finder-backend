@@ -5,7 +5,7 @@ using Dapper;
 
 namespace ApartmentFinder.Application.Bookings.GetBooking;
 
-internal sealed class GetBookingQueryHandler : IQueryHandler<GetBookingQuery, BookingResponse>
+public sealed class GetBookingQueryHandler : IQueryHandler<GetBookingQuery, BookingResponse>
 {
 	public readonly ISqlConnectionFactory _sqlConnectionFactory;
 

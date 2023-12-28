@@ -5,7 +5,7 @@ using ApartmentFinder.Domain.Bookings;
 
 namespace ApartmentFinder.Application.Bookings.RejectBooking;
 
-internal sealed class RejectBookingCommandCommandHandler : ICommandHandler<RejectBookingCommand>
+public sealed class RejectBookingCommandCommandHandler : ICommandHandler<RejectBookingCommand>
 {
 	private readonly IDateTimeProvider _dateTimeProvider;
 	private readonly IBookingRepository _bookingRepository;

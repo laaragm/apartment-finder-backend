@@ -5,7 +5,7 @@ using ApartmentFinder.Application.Abstractions.Messaging;
 
 namespace ApartmentFinder.Application.Bookings.CompleteBooking;
 
-internal sealed class CompleteBookingCommandHandler : ICommandHandler<CompleteBookingCommand>
+public sealed class CompleteBookingCommandHandler : ICommandHandler<CompleteBookingCommand>
 {
 	private readonly IDateTimeProvider _dateTimeProvider;
 	private readonly IBookingRepository _bookingRepository;

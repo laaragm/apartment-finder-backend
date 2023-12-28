@@ -5,7 +5,7 @@ using ApartmentFinder.Application.Abstractions.Messaging;
 
 namespace ApartmentFinder.Application.Bookings.CancelBooking;
 
-internal sealed class CancelBookingCommandHandler : ICommandHandler<CancelBookingCommand>
+public sealed class CancelBookingCommandHandler : ICommandHandler<CancelBookingCommand>
 {
 	private readonly IDateTimeProvider _dateTimeProvider;
 	private readonly IBookingRepository _bookingRepository;

@@ -1,5 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -12,6 +11,7 @@
 	<ItemGroup>
 		<PackageReference Include="FluentAssertions" Version="6.11.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
+		<PackageReference Include="Moq" Version="4.18.4" />
 		<PackageReference Include="xunit" Version="2.5.0" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,6 +24,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\ApartmentFinder\ApartmentFinder.Domain\ApartmentFinder.Domain.csproj" />
+		<ProjectReference Include="..\..\ApartmentFinder.Application\ApartmentFinder.Application.csproj" />
 	</ItemGroup>
 </Project>

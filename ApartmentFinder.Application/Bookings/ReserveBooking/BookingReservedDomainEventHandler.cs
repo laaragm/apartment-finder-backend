@@ -6,7 +6,7 @@ using ApartmentFinder.Application.Abstractions.Email;
 
 namespace ApartmentFinder.Application.Bookings.ReserveBooking;
 
-internal sealed class BookingReservedDomainEventHandler : INotificationHandler<BookingReservedDomainEvent>
+public sealed class BookingReservedDomainEventHandler : INotificationHandler<BookingReservedDomainEvent>
 {
 	private readonly IBookingRepository _bookingRepository;
 	private readonly IUserRepository _userRepository;

@@ -6,7 +6,7 @@ using ApartmentFinder.Application.Abstractions.Messaging;
 
 namespace ApartmentFinder.Application.Apartments.SearchApartments;
 
-internal sealed class SearchApartmentsQueryHandler : IQueryHandler<SearchApartmentsQuery, IReadOnlyList<ApartmentResponse>>
+public sealed class SearchApartmentsQueryHandler : IQueryHandler<SearchApartmentsQuery, IReadOnlyList<ApartmentResponse>>
 {
 	private static readonly int[] ActiveBookingStatuses =
 	{

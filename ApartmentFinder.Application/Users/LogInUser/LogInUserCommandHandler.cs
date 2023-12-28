@@ -5,7 +5,7 @@ using ApartmentFinder.Application.Abstractions.Authentication;
 
 namespace ApartmentFinder.Application.Users.LogInUser;
 
-internal sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand, AccessTokenResponse>
+public sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand, AccessTokenResponse>
 {
 	private readonly IJwtService _jwtService;
 

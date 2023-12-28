@@ -5,7 +5,7 @@ using ApartmentFinder.Application.Abstractions.Authentication;
 
 namespace ApartmentFinder.Application.Users.RegisterUser;
 
-internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, Guid>
+public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, Guid>
 {
 	private readonly IAuthenticationService _authenticationService;
 	private readonly IUserRepository _userRepository;

@@ -6,7 +6,7 @@ using ApartmentFinder.Application.Abstractions.Messaging;
 
 namespace ApartmentFinder.Application.Reviews.AddReview;
 
-internal sealed class AddReviewCommandHandler : ICommandHandler<AddReviewCommand>
+public sealed class AddReviewCommandHandler : ICommandHandler<AddReviewCommand>
 {
 	private readonly IBookingRepository _bookingRepository;
 	private readonly IReviewRepository _reviewRepository;

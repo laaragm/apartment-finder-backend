@@ -33,7 +33,7 @@ public class CancelBookingTests : BaseTest
 	}
 
 	[Fact]
-	public void Cancel_Should_Raise_BookingCancelledDomainEvent()
+	public void Cancel_Should_Raise_Booking_Cancelled_Domain_Event()
 	{
 		// Arrange
 		var booking = BookApartment(new DateTime(2024, 10, 12), new DateTime(2024, 10, 18));
@@ -49,7 +49,7 @@ public class CancelBookingTests : BaseTest
 	}
 
 	[Fact]
-	public void Cancel_Before_Confirmation_Should_Not_Be_Allowed()
+	public void Cancel_Before_Confirmation_Should_Return_Failure()
 	{
 		// Arrange
 		var booking = BookApartment(new DateTime(2024, 10, 12), new DateTime(2024, 10, 18));
@@ -62,7 +62,7 @@ public class CancelBookingTests : BaseTest
 	}
 
 	[Fact]
-	public void Cancel_After_Start_Date_Should_Not_Be_Allowed()
+	public void Cancel_After_Start_Date_Should_Return_Failure()
 	{
 		// Arrange
 		var booking = BookApartment(new DateTime(2023, 05, 10), new DateTime(2024, 06, 10));
