@@ -1,11 +1,11 @@
 ﻿namespace ApartmentFinder.Domain.Abstractions;
 
-public abstract class Entity
+public abstract class Entity<TEntityId> : IEntity
 {
-	public Guid Id { get; init; } // the init accessor will ensure that once the entity has been defined, its ID will be set and remain unchanged for its lifetime
+	public TEntityId Id { get; init; } // the init accessor will ensure that once the entity has been defined, its ID will be set and remain unchanged for its lifetime
 	private readonly List<IDomainEvent> _domainEvents = new();
 
-	protected Entity(Guid id)
+	protected Entity(TEntityId id)
 	{
 		Id = id;
 	}

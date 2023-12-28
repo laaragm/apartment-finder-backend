@@ -2,4 +2,4 @@
 
 namespace ApartmentFinder.Domain.Users.Events;
 
-public sealed record class UserCreatedDomainEvent(Guid UserId) : IDomainEvent;
+public sealed record class UserCreatedDomainEvent(UserId UserId) : IDomainEvent;

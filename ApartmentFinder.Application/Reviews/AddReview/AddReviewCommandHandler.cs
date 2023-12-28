@@ -23,7 +23,7 @@ internal sealed class AddReviewCommandHandler : ICommandHandler<AddReviewCommand
 
 	public async Task<Result> Handle(AddReviewCommand request, CancellationToken cancellationToken)
 	{
-		var booking = await _bookingRepository.GetByIdAsync(request.BookingId, cancellationToken);
+		var booking = await _bookingRepository.GetByIdAsync(new BookingId(request.BookingId), cancellationToken);
 		if (booking is null)
 		{
 			return Result.Failure(BookingErrors.NotFound);

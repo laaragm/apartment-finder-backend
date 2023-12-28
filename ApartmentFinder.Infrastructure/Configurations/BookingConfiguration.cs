@@ -4,6 +4,7 @@ using ApartmentFinder.Domain.Users;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using ApartmentFinder.Domain.Shared;
+using ApartmentFinder.Domain.Reviews;
 
 namespace ApartmentFinder.Infrastructure.Configurations;
 
@@ -14,6 +15,9 @@ internal sealed class BookingConfiguration : IEntityTypeConfiguration<Booking>
 		builder.ToTable("bookings");
 
 		builder.HasKey(booking => booking.Id);
+
+		builder.Property(booking => booking.Id)
+			.HasConversion(booking => booking.Value, value => new BookingId(value));
 
 		builder.OwnsOne(booking => booking.PriceForPeriod, priceBuilder =>
 		{

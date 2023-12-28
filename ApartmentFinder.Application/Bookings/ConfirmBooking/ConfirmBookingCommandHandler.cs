@@ -20,7 +20,7 @@ internal sealed class ConfirmBookingCommandHandler : ICommandHandler<ConfirmBook
 
 	public async Task<Result> Handle(ConfirmBookingCommand request, CancellationToken cancellationToken)
 	{
-		var booking = await _bookingRepository.GetByIdAsync(request.BookingId);
+		var booking = await _bookingRepository.GetByIdAsync(new BookingId(request.BookingId));
 		if (booking is null)
 		{
 			return Result.Failure(BookingErrors.NotFound);

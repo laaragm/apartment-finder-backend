@@ -40,7 +40,7 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 	{
 		// Get all domain events from entities that have raised them
 		var domainEvents = ChangeTracker
-			.Entries<Entity>()
+			.Entries<IEntity>()
 			.Select(entry => entry.Entity)
 			.SelectMany(entity =>
 			{

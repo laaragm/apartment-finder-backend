@@ -1,9 +1,9 @@
-﻿using ApartmentFinder.Domain.Abstractions;
-using ApartmentFinder.Domain.Shared;
+﻿using ApartmentFinder.Domain.Shared;
+using ApartmentFinder.Domain.Abstractions;
 
 namespace ApartmentFinder.Domain.Apartments;
 
-public sealed class Apartment : Entity
+public sealed class Apartment : Entity<ApartmentId>
 {
 	public Name Name { get; private set; } // The private setter is used because we don't want to allow the property to be changed outside the scope of the entity
 	public Description Description { get; private set; }
@@ -13,7 +13,7 @@ public sealed class Apartment : Entity
 	public DateTime? LastBookedOnUtc { get; internal set; } // We can only set the value of this property in the domain project
 	public List<Amenity> Amenities { get; private set; } = new();
 
-	public Apartment(Guid id, Name name, Description description, Address address, Money price, Money cleaningFee, List<Amenity> amenities) : base(id) 
+	public Apartment(ApartmentId id, Name name, Description description, Address address, Money price, Money cleaningFee, List<Amenity> amenities) : base(id) 
 	{
 		Name = name;
 		Description = description;

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ApartmentFinder.Domain.Shared;
 using ApartmentFinder.Domain.Apartments;
+using ApartmentFinder.Domain.Bookings;
 
 namespace ApartmentFinder.Infrastructure.Configurations;
 
@@ -11,7 +12,11 @@ internal sealed class ApartmentConfiguration : IEntityTypeConfiguration<Apartmen
 	{
 		builder.ToTable("apartments");
 
-		builder.HasKey(apartment => apartment.Id); // Primary Key
+		builder.HasKey(apartment => apartment.Id);
+
+		// Define a conversion from the strongly typed id into the Guid value and also from the database value into the strongly typed id
+		builder.Property(apartment => apartment.Id)
+			.HasConversion(apartment => apartment.Value, value => new ApartmentId(value));
 
 		builder.OwnsOne(apartment => apartment.Address); // The value object is going to be mapped into a set of columns in the same table as the current entity
 
