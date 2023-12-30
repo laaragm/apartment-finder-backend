@@ -11,7 +11,7 @@ public static class BookingsEndpoints
 	public static IEndpointRouteBuilder MapBookingsEndpoints(this IEndpointRouteBuilder builder)
 	{
 		var routeGroupBuilder = builder.MapGroup("api/bookings").RequireAuthorization();
-		routeGroupBuilder.MapGet("{id}", GetBooking).WithName("GetBooking");
+		routeGroupBuilder.MapGet("{id}", GetBooking).WithName(nameof(GetBooking));
 		routeGroupBuilder.MapPost("", ReserveBooking);
 
 		return builder;
